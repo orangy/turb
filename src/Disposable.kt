@@ -12,4 +12,4 @@ public inline fun using(disposable: Disposable, body: () -> Unit) {
     }
 }
 
-public class ObjectDisposedException(message : String = "Object already disposed.") : Exception(message)
+public class ObjectDisposedException(message: String = "Object already disposed.") : Exception(message)

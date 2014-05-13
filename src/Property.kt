@@ -19,10 +19,10 @@ public class Property<TValue>(initial: TValue) : Viewable<TValue> {
     public val changing: Signal<TValue> = Signal()
     public val changed: Signal<TValue> = Signal()
 
-    override fun view(lifetime: Lifetime, observer: (Lifetime, TValue) -> Unit) {
-        observer(valueLifetime.lifetime, currentValue)
+    override fun view(lifetime: Lifetime, action: (Lifetime, TValue) -> Unit) {
+        action(valueLifetime.lifetime, currentValue)
         changed.attach(lifetime) {
-            observer(valueLifetime.lifetime, currentValue)
+            action(valueLifetime.lifetime, currentValue)
         }
     }
 }

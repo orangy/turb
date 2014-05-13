@@ -1,6 +1,6 @@
 package org.jetbrains.turb
 
-public class Property<TValue>(val lifetime : Lifetime, initial: TValue) : Viewable<TValue> {
+public class Property<TValue>(val lifetime: Lifetime, initial: TValue) : Viewable<TValue> {
     {
         lifetime.attach {
             leave(currentValue)
@@ -23,8 +23,8 @@ public class Property<TValue>(val lifetime : Lifetime, initial: TValue) : Viewab
             enter(value)
         }
 
-    public val leave: Signal<TValue> = Signal { (l,f)-> }
-    public val enter: Signal<TValue> = Signal { (l,f)-> f(currentValue)}
+    public val leave: Signal<TValue> = Signal {(l, f) -> }
+    public val enter: Signal<TValue> = Signal {(l, f) -> f(currentValue) }
 
     override fun view(lifetime: Lifetime, action: (Lifetime, TValue) -> Unit) {
         enter.attach(lifetime) {

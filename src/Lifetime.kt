@@ -26,7 +26,7 @@ public class LifetimeDefinition : Disposable {
         if (disposed)
             throw ObjectDisposedException()
 
-        val capture = listeners.toList()
+        val capture = listeners.reverse()
         capture.forEach { it() }
         isDisposed = true
     }

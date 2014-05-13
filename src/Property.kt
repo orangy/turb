@@ -1,17 +1,17 @@
 package org.jetbrains.turb
 
 public class Property<TValue>(initial: TValue) : Viewable<TValue> {
-    var storage = initial
+    var currentValue = initial
     var valueLifetime = LifetimeDefinition()
 
     public var value: TValue
-        get() = storage
+        get() = currentValue
         set(new: TValue) {
             if (value == new)
                 return
             changing(value)
             valueLifetime.dispose()
-            value = new
+            currentValue = new
             valueLifetime = LifetimeDefinition()
             changed(value)
         }
@@ -20,8 +20,9 @@ public class Property<TValue>(initial: TValue) : Viewable<TValue> {
     public val changed: Signal<TValue> = Signal()
 
     override fun view(lifetime: Lifetime, observer: (Lifetime, TValue) -> Unit) {
+        observer(valueLifetime.lifetime, currentValue)
         changed.attach(lifetime) {
-            observer(valueLifetime.lifetime, storage)
+            observer(valueLifetime.lifetime, currentValue)
         }
     }
 }

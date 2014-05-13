@@ -22,4 +22,21 @@ class ViewableSpecification : Spek() {{
             }
         }
     }
+
+    given("a viewable property") {
+        val lifetime = LifetimeDefinition().lifetime
+        val property = Property(0)
+        on("observing mapped values") {
+            var sum = ""
+            property.map { it.toString()}.view(lifetime) { (l,v)->
+                sum += v
+            }
+            property.value = 3
+            property.value = 1
+            property.value = 4
+            it("should concat string to 0314") {
+                shouldEqual("0314", sum)
+            }
+        }
+    }
 }}

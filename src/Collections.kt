@@ -1,6 +1,3 @@
 package org.jetbrains.turb
 
-fun <T> MutableList<T>.add(lifetime: Lifetime, value: T) {
-    add(value)
-    lifetime += { remove(value) }
-}
+public fun <T> MutableList<T>.add(lifetime: Lifetime, value: T): Unit = lifetime.within({ add(value) }, { remove(value) })

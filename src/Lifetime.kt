@@ -6,6 +6,7 @@ public class LifetimeDefinition : Disposable {
     private var isDisposed = false
 
     public fun plusAssign(end: () -> Unit): Unit = attach(end)
+    public fun minusAssign(end: () -> Unit): Unit = detach(end)
 
     public fun attach(end: () -> Unit) {
         if (disposed)
@@ -32,35 +33,14 @@ public class LifetimeDefinition : Disposable {
     }
 }
 
-public class Lifetime(internal val definition: LifetimeDefinition) {
+public class Lifetime(private val definition: LifetimeDefinition) {
     public fun plusAssign(end: () -> Unit): Unit = attach(end)
+    public fun minusAssign(end: () -> Unit): Unit = detach(end)
+
     public fun attach(end: () -> Unit) {
         definition.attach(end)
     }
-}
-
-public fun Lifetime.attach(disposable: Disposable) {
-    attach { disposable.dispose() }
-}
-
-public fun Lifetime.nested(): LifetimeDefinition {
-    val def = LifetimeDefinition()
-    val fn = { def.dispose() }
-    def.attach {
-        definition.detach(fn)
+    public fun detach(end: () -> Unit) {
+        definition.detach(end)
     }
-    attach(fn)
-    return def
-}
-
-public fun Lifetime.intersect(other: Lifetime): LifetimeDefinition {
-    val def = LifetimeDefinition()
-    val fn = { def.dispose() }
-    def.attach {
-        other.definition.detach(fn)
-        definition.detach(fn)
-    }
-    attach(fn)
-    other.attach(fn)
-    return def
 }

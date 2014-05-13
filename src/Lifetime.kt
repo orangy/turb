@@ -19,7 +19,7 @@ public class LifetimeDefinition : Disposable {
         listeners.remove(end)
     }
 
-    public val disposed : Boolean
+    public val disposed: Boolean
         get() = isDisposed
 
     public override fun dispose() {
@@ -37,6 +37,10 @@ public class Lifetime(internal val definition: LifetimeDefinition) {
     public fun attach(end: () -> Unit) {
         definition.attach(end)
     }
+}
+
+public fun Lifetime.attach(disposable: Disposable) {
+    attach { disposable.dispose() }
 }
 
 public fun Lifetime.nested(): LifetimeDefinition {

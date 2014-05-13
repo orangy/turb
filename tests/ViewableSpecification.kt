@@ -7,7 +7,7 @@ class ViewableSpecification : Spek() {{
 
     given("a viewable property") {
         val lifetime = LifetimeDefinition().lifetime
-        val property = Property(2)
+        val property = Property(lifetime, 2)
         on("observing filtered values") {
             var sum = 0
             property.filter { it % 2 == 0 }.view(lifetime) { (l,v)->
@@ -25,7 +25,7 @@ class ViewableSpecification : Spek() {{
 
     given("a viewable property") {
         val lifetime = LifetimeDefinition().lifetime
-        val property = Property(0)
+        val property = Property(lifetime, 0)
         on("observing mapped values") {
             var sum = ""
             property.map { it.toString()}.view(lifetime) { (l,v)->

@@ -14,24 +14,26 @@ public inline fun scope<R>(body: Scope.() -> R): R {
     }
 }
 
+public inline fun Scope.scope<R>(body: Scope.() -> R): R = nested().scope.body()
+
 public fun Scope.nested(): ScopeDefinition {
     val def = ScopeDefinition()
-    val fn = { def.dispose() }
+    val defDispose = { def.dispose() }
     def.attach {
-        detach(fn)
+        detach(defDispose)
     }
-    attach(fn)
+    attach(defDispose)
     return def
 }
 
 public fun Scope.intersect(other: Scope): ScopeDefinition {
     val def = ScopeDefinition()
-    val fn = { def.dispose() }
+    val defDispose = { def.dispose() }
     def.attach {
-        other.detach(fn)
-        detach(fn)
+        other.detach(defDispose)
+        detach(defDispose)
     }
-    attach(fn)
-    other.attach(fn)
+    attach(defDispose)
+    other.attach(defDispose)
     return def
 }

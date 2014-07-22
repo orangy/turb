@@ -10,7 +10,7 @@ class ViewableSpecification : Spek() {{
         val property = Property(scope, 2)
         on("observing filtered values") {
             var sum = 0
-            property.filter { it % 2 == 0 }.view(scope) { (l,v)->
+            property.filter { it % 2 == 0 }.view(scope) { (s,v)->
                 sum += v
             }
             property.value = 3
@@ -28,7 +28,7 @@ class ViewableSpecification : Spek() {{
         val property = Property(scope, 0)
         on("observing mapped values") {
             var sum = ""
-            property.map { it.toString()}.view(scope) { (l,v)->
+            property.map { it.toString()}.view(scope) { (s,v)->
                 sum += v
             }
             property.value = 3

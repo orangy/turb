@@ -1,6 +1,6 @@
 package org.jetbrains.turb
 
-public class Signal<TValue>(private val attached: (Scope, (TValue) -> Unit) -> Unit = {(l, f) -> }) {
+public class Signal<TValue>(private val attached: (Scope, (TValue) -> Unit) -> Unit = {(scope, action) -> }) {
     private val listeners = arrayListOf<(TValue) -> Unit>()
 
     public fun attach(scope: Scope, action: (TValue) -> Unit) {

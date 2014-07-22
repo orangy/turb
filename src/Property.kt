@@ -23,8 +23,8 @@ public class Property<TValue>(val scope: Scope, initial: TValue) : Viewable<TVal
             enter(value)
         }
 
-    public val leave: Signal<TValue> = Signal {(l, f) -> }
-    public val enter: Signal<TValue> = Signal {(l, f) -> f(currentValue) }
+    public val leave: Signal<TValue> = Signal {(scope, action) -> }
+    public val enter: Signal<TValue> = Signal {(scope, action) -> action(currentValue) }
 
     override fun view(scope: Scope, action: (Scope, TValue) -> Unit) {
         enter.attach(scope) {

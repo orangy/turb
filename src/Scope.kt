@@ -1,7 +1,7 @@
 package org.jetbrains.turb
 
-public class LifetimeDefinition : Disposable {
-    public val lifetime: Lifetime = Lifetime(this)
+public class ScopeDefinition : Disposable {
+    public val scope: Scope = Scope(this)
     private val listeners = arrayListOf<() -> Unit>()
     private var isDisposed = false
 
@@ -33,7 +33,7 @@ public class LifetimeDefinition : Disposable {
     }
 }
 
-public class Lifetime(private val definition: LifetimeDefinition) {
+public class Scope(private val definition: ScopeDefinition) {
     public fun plusAssign(end: () -> Unit): Unit = attach(end)
     public fun minusAssign(end: () -> Unit): Unit = detach(end)
 

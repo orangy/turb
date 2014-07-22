@@ -1,15 +1,15 @@
 package org.jetbrains.turb
 
-public class Property<TValue>(val lifetime: Lifetime, initial: TValue) : Viewable<TValue> {
+public class Property<TValue>(val scope: Scope, initial: TValue) : Viewable<TValue> {
     {
-        lifetime.attach {
+        scope.attach {
             leave(currentValue)
-            valueLifetime.dispose()
+            valueScope.dispose()
         }
     }
 
     var currentValue = initial
-    var valueLifetime = LifetimeDefinition()
+    var valueScope = ScopeDefinition()
 
     public var value: TValue
         get() = currentValue
@@ -17,18 +17,18 @@ public class Property<TValue>(val lifetime: Lifetime, initial: TValue) : Viewabl
             if (value == new)
                 return
             leave(value)
-            valueLifetime.dispose()
+            valueScope.dispose()
             currentValue = new
-            valueLifetime = LifetimeDefinition()
+            valueScope = ScopeDefinition()
             enter(value)
         }
 
     public val leave: Signal<TValue> = Signal {(l, f) -> }
     public val enter: Signal<TValue> = Signal {(l, f) -> f(currentValue) }
 
-    override fun view(lifetime: Lifetime, action: (Lifetime, TValue) -> Unit) {
-        enter.attach(lifetime) {
-            action(valueLifetime.lifetime, currentValue)
+    override fun view(scope: Scope, action: (Scope, TValue) -> Unit) {
+        enter.attach(scope) {
+            action(valueScope.scope, currentValue)
         }
     }
 }

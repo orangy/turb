@@ -4,14 +4,14 @@ import org.jetbrains.turb.*
 import org.spek.*
 
 
-class LifetimeSpecification : Spek() {{
+class ScopeSpecification : Spek() {{
 
-    given("Lifetime definition") {
+    given("Scope definition") {
         var value = 0
-        val def = LifetimeDefinition()
+        val def = ScopeDefinition()
         on("disposing definition") {
-            val lifetime = def.lifetime
-            lifetime.attach { value++ }
+            val scope = def.scope
+            scope.attach { value++ }
             def.dispose()
             it("should invoke handler") {
                 shouldEqual(1, value)
@@ -19,12 +19,12 @@ class LifetimeSpecification : Spek() {{
         }
     }
 
-    given("Nested lifetime") {
+    given("Nested scope") {
 
-        on("disposing nested lifetime") {
+        on("disposing nested scope") {
             var value = 0
-            val def = LifetimeDefinition()
-            val nested = def.lifetime.nested()
+            val def = ScopeDefinition()
+            val nested = def.scope.nested()
             nested.attach { value++ }
             nested.dispose()
             def.dispose()
@@ -33,10 +33,10 @@ class LifetimeSpecification : Spek() {{
             }
         }
 
-        on("disposing outer lifetime") {
+        on("disposing outer scope") {
             var value = 0
-            val def = LifetimeDefinition()
-            val nested = def.lifetime.nested()
+            val def = ScopeDefinition()
+            val nested = def.scope.nested()
             nested.attach { value++ }
             def.dispose()
             it("should invoke handler only once") {
@@ -45,12 +45,12 @@ class LifetimeSpecification : Spek() {{
         }
     }
 
-    given("Intersected lifetimes") {
-        on("disposing intersected lifetime") {
+    given("Intersected sopecs") {
+        on("disposing intersected scope") {
             var value = 0
-            val def1 = LifetimeDefinition()
-            val def2 = LifetimeDefinition()
-            val intersected = def1.lifetime.intersect(def2.lifetime)
+            val def1 = ScopeDefinition()
+            val def2 = ScopeDefinition()
+            val intersected = def1.scope.intersect(def2.scope)
             intersected.attach { value++ }
             intersected.dispose()
             def1.dispose()
@@ -59,11 +59,11 @@ class LifetimeSpecification : Spek() {{
                 shouldEqual(1, value)
             }
         }
-        on("disposing outer lifetime") {
+        on("disposing outer scope") {
             var value = 0
-            val def1 = LifetimeDefinition()
-            val def2 = LifetimeDefinition()
-            val intersected = def1.lifetime.intersect(def2.lifetime)
+            val def1 = ScopeDefinition()
+            val def2 = ScopeDefinition()
+            val intersected = def1.scope.intersect(def2.scope)
             intersected += { value++ }
             def1.dispose()
             def2.dispose()

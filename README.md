@@ -1,4 +1,4 @@
 turb
 ====
 
-Alternative approach to reactive APIs using lifetimes instead of returning subscriptions
+Alternative approach to reactive APIs using scopes instead of returning subscriptions

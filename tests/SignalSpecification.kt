@@ -9,8 +9,8 @@ class SignalSpecification : Spek() {{
         var value = 0
         val signal = Signal<Int>()
 
-        val def = LifetimeDefinition()
-        signal.attach(def.lifetime) {
+        val def = ScopeDefinition()
+        signal.attach(def.scope) {
             value++
         }
         on("invoking signal") {
@@ -25,8 +25,8 @@ class SignalSpecification : Spek() {{
         var value = 0
         val signal = Signal<Int>()
 
-        val def = LifetimeDefinition()
-        signal.attach(def.lifetime) {
+        val def = ScopeDefinition()
+        signal.attach(def.scope) {
             value++
         }
         def.dispose()

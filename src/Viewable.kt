@@ -1,12 +1,12 @@
 package org.jetbrains.turb
 
 public trait Viewable<T> {
-    public fun view(lifetime: Lifetime, action: (Lifetime, T) -> Unit)
+    public fun view(scope: Scope, action: (Scope, T) -> Unit)
 }
 
 fun <T> Viewable<T>.filter(predicate: (T) -> Boolean): Viewable<T> = object : Viewable<T> {
-    override fun view(lifetime: Lifetime, action: (Lifetime, T) -> Unit) {
-        this@filter.view(lifetime) {(l, v) ->
+    override fun view(scope: Scope, action: (Scope, T) -> Unit) {
+        this@filter.view(scope) {(l, v) ->
             if (predicate(v)) {
                 action(l, v)
             }
@@ -15,8 +15,8 @@ fun <T> Viewable<T>.filter(predicate: (T) -> Boolean): Viewable<T> = object : Vi
 }
 
 fun <T, V> Viewable<T>.map(transform: (T) -> V): Viewable<V> = object : Viewable<V> {
-    override fun view(lifetime: Lifetime, action: (Lifetime, V) -> Unit) {
-        this@map.view(lifetime) {(l, v) ->
+    override fun view(scope: Scope, action: (Scope, V) -> Unit) {
+        this@map.view(scope) {(l, v) ->
             action(l, transform(v))
         }
     }

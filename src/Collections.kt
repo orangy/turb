@@ -1,3 +1,3 @@
 package org.jetbrains.turb
 
-public fun <T> MutableList<T>.add(lifetime: Lifetime, value: T): Unit = lifetime.within({ add(value) }, { remove(value) })
+public fun <T> MutableList<T>.add(scope: Scope, value: T): Unit = scope.within({ add(value) }, { remove(value) })

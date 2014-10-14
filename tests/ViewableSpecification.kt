@@ -1,7 +1,7 @@
 package org.jetbrains.turb.tests
 
 import org.jetbrains.turb.*
-import org.spek.*
+import org.jetbrains.spek.api.*
 
 class ViewableSpecification : Spek() {{
 
